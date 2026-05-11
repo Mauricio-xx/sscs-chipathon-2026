@@ -8,7 +8,20 @@ This is the **automated digital RTL-to-GDS path** for chipathon-2026. It complem
 
 ![overall flow](diagrams/flow_rtl2gds.svg)
 
-The host/container model is the same for every example: notebooks live on the host, the EDA tools run inside a `gf180` container, and `~/eda/designs <-> /foss/designs` is the bind-mount that lets both sides see the same files.
+## Two workflows, same notebooks
+
+The notebooks ship in two flavours so you can pick the one that matches your environment:
+
+- **Host-driven (this folder, default).** Jupyter Lab runs on your host, the EDA tools run inside a `gf180` container, and every cell shells in via `docker exec gf180 bash -lc ...`. This is the original workflow and what the rest of the README documents.
+- **In-container (see [`in_container/`](in_container/)).** Jupyter Lab runs **inside** the container alongside the EDA tools; the host only needs Docker and a browser. Pick this if you do not want to install Jupyter on your host or you prefer "everything in one package".
+
+![workflow comparison](diagrams/workflow_comparison.svg)
+
+The two variants share the same bind-mount (`~/eda/designs <-> /foss/designs`), so artifacts produced by one workflow are visible to the other. Just do not run the same notebook in both at the same time.
+
+### Host-driven model (what the rest of this README assumes)
+
+Notebooks live on the host, the EDA tools run inside a `gf180` container, and `~/eda/designs <-> /foss/designs` is the bind-mount that lets both sides see the same files.
 
 ![host/container model](diagrams/container_model.svg)
 
